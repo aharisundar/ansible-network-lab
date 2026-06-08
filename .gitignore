@@ -1,0 +1,8 @@
+secrets.yml
+*.pem
+*.key
+vault_pass.txt
+backup/
+generated/
+*.bak
+~u0_a367
