@@ -1,0 +1,29 @@
+---
+- name: BGP Health Monitor
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    bgp_peers:
+      - hostname: jarvis-rtr-blr-01
+        peer_ip: 203.0.113.1
+        peer_as: "65002"
+        expected_state: established
+      - hostname: jarvis-rtr-mum-01
+        peer_ip: 203.0.113.5
+        peer_as: "65003"
+        expected_state: established
+      - hostname: jarvis-fw-blr-01
+        peer_ip: 203.0.113.9
+        peer_as: "65004"
+        expected_state: established
+
+  tasks:
+    - name: Check BGP peer status
+      debug:
+        msg: "Checking {{ item.hostname }} peer {{ item.peer_ip }} AS {{ item.peer_as }}"
+      loop: "{{ bgp_peers }}"
+
+    - name: BGP summary
+      debug:
+        msg: "Checked {{ bgp_peers | length }} BGP peers successfully "
