@@ -1,0 +1,31 @@
+---
+- name: Handlers Practice
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Update NTP config
+      debug:
+        msg: "NTP config updated"
+      changed_when: true
+      notify: Restart NTP service
+
+    - name: Update BGP cnofig
+      debug:
+        msg: "BGP config updated"
+      changed_when: true
+      notify: Reset BGP session
+
+    - name: This task has no changes
+      debug:
+        msg: "Nothing changed here"
+      changed_when: false
+
+  handlers:
+    - name: Restart NTP service
+      debug:
+        msg: "HANDLER - NTP service restarted"
+
+    - name: Reset BGP session
+      debug:
+        msg: "HANDLER - BGP session reset"

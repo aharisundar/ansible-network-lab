@@ -1,0 +1,56 @@
+---
+- name: Network Config Backup Automation
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    backup_dir: "/data/data/com.termux/files/home/ansible-lab/backup"
+    devices:
+      - hostname: jarvis-rtr-blr-01
+        ip: 10.0.0.1
+        type: cisco_ios
+        site: Bangalore
+      - hostname: jarvis-rtr-mum-01
+        ip: 10.0.0.2
+        type: cisco_ios
+        site: Mumbai
+      - hostname: jarvis-fw-blr-01
+        ip: 10.0.0.3
+        type: juniper_srx
+        site: Bangalore
+      - hostname: jarvis-sw-blr-01
+        ip: 10.0.0.4
+        type: cisco_nexus
+        site: Bangalore
+
+  tasks:
+    - name: Create backup directory
+      file:
+        path: "{{ backup_dir }}"
+        state: directory
+
+    - name: Simulate config backup for each device
+      copy:
+        content:  |
+          hostname {{ item.hostname }}
+          interface GigabitEthernet0/0
+           ip address {{ item.ip }} 255.255.255.0
+           no shutdown
+          ntp server 10.10.10.1
+          ntp server 10.10.10.2
+          banner motd Authorized Access Only
+          end
+        dest: "{{ backup_dir }}/{{ item.hostname }}_backup.txt"
+      loop: "{{ devices }}"
+
+    - name: Verify backups created
+      command: ls -ls {{ backup_dir }}
+      register: backup_list
+
+    - name: Show backup summary
+      debug:
+        msg: "{{ backup_list.stdout_lines }}"
+
+    - name: Backup completion summary
+      debug:
+        msg: "Backed up {{ devices | length }} devices to {{ backup_dir }}"

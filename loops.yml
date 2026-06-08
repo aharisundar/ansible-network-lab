@@ -1,0 +1,31 @@
+---
+- name: Loops Practice
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    vlans:
+      - id: 10
+        name: Mgmt
+      - id: 20
+        name: Servers
+      - id: 30
+        name: Users
+      - id: 40
+        name: Guest
+
+    interfaces:
+      - GigabitEthernet0/1
+      - GigabitEthernet0/2
+      - GigabitEthernet0/3
+
+  tasks:
+    - name: Vonfigure VLANs
+      debug:
+        msg: "Creating VLAN {{ item.id }} named {{ item.name }}"
+      loop: "{{ vlans }}"
+
+    - name: Bring up interfaces
+      debug:
+        msg: "Setting {{ item }} to no shutdown"
+      loop: "{{ interfaces }}"

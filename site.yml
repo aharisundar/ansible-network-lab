@@ -1,0 +1,6 @@
+---
+- name: Apply Network Baseline Role
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - network_baseline

@@ -1,0 +1,9 @@
+---
+router_hostname: "jarvis-rtr-blr-01"
+ntp_servers:
+  - "10.0.0.1"
+  - "10.0.0.2"
+dns_servers:
+  - "8.8.8.8"
+  - "8.8.4.4"
+ssh_version: 2

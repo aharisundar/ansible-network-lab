@@ -1,0 +1,53 @@
+---
+- name: Network Device Configuration Simulation
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    router_hostname: "jarvis-rtr-blr-01"
+    wan_interface: "GigabitEthernet0/0"
+    lan_interface: "GigabitEthernet0/1"
+    wan_ip: "203.0.113.1"
+    lan_ip: "192.168.1.1"
+    bgp_as: "65001"
+    bgp_peer: "203.0.113.2"
+    peer_as: "65002"
+    ntp_servers:
+      - "10.0.0.1"
+      - "10.0.0.2"
+    dns_servers:
+     - "8.8.8.8"
+     - "8.8.4.4"
+
+  tasks:
+    - name: Show router identity
+      debug:
+        msg: "Configuring router: {{ router_hostname }}"
+
+    - name: Show WAN interface config
+      debug:
+        msg: "WAN {{ wan_interface }} IP: {{ wan_ip }}"
+
+    - name: Show LAN interface config
+      debug:
+        msg: "LAN {{ lan_interface }} IP: {{ lan_ip }}"
+
+    - name: Show BGP configuration
+      debug:
+        msg: "BGP AS {{ bgp_as }} peering with {{ bgp_peer }} (AS {{ peer_as }}"
+
+    - name: Show NTP servers
+      debug:
+        msg: "NTP servers: {{ ntp_servers }}"
+
+    - name: SHow DNS servers
+      debug:
+        msg: "DNS servers: {{ dns_servers }}"
+
+    - name: Configuration summary
+      debug:
+        msg: >
+          Router {{ router_hostname }} configured with
+          WAN {{ wan_ip }}, LAN {{ lan_ip }},
+          BGP AS {{ bgp_as }}
+

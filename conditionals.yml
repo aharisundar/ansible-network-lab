@@ -1,0 +1,41 @@
+---
+- name: Conditionals Practice
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    device_type: "cisco"
+    bgp_status: "down"
+    interface_speed: 1000
+    env_type: "production"
+
+  tasks:
+    - name: Cisco specific config
+      debug:
+        msg: "Applying Cisco IOS commands"
+      when: device_type == "cisco"
+
+    - name: Juniper specific config
+      debug:
+        msg: "Applying Juniper JunOS commands"
+      when: device_type == "juniper"
+
+    - name: Alert if BGP is down
+      debug:
+        msg: "ALERT - BGP is DOWN, investigating"
+      when: bgp_status == "down"
+
+    - name: High speed interface config
+      debug:
+        msg: "Applying 1G interface config"
+      when: interface_speed >= 1000
+
+    - name: Production safety check
+      debug:
+        msg: "WARNING - Production change, double check"
+      when: env_type == "production"
+
+    - name: Skip this for production
+      debug:
+        msg: "This only runs in dev"
+      when: env_type != "production"

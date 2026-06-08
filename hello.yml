@@ -1,0 +1,9 @@
+---
+- name: My First Playbook
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Hello World
+      debug:
+        msg: "Ansible working on Termux!"
+

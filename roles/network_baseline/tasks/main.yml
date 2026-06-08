@@ -1,0 +1,26 @@
+---
+- name: Display hostname
+  debug:
+    msg: "Configure {{ router_hostname }}"
+
+- name: Configure NTP servers
+  debug:
+    msg: "Setting NTP server {{ item }}"
+  loop: "{{ ntp_servers }}"
+
+- name: Configure DNS servers
+  debug:
+    msg: "Setting DNS server {{ item }}"
+  loop: "{{ dns_servers }}"
+
+- name: Enable SSH v2
+  debug:
+    msg: "Enabling SSH version 2 on {{ router_hostname }}"
+
+- name: Disable Telnet
+  debug:
+    msg: "Telnet disabled on  {{ router_hostname }}"
+
+- name: Set login banner
+  debug:
+    msg: "Banner set - Authorized access only"
