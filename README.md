@@ -2,7 +2,7 @@
 
 ## Engineer
 Hari Sundar A | Senior Network Engineer
-18+ Years | CCNP | AWS-SA | ZScaler ZZPA/ZDX
+18+ Years | CCNP | AWS-SA | ZScaler ZPA/ZDX
 
 ## Playbooks
 - config_backup.yml - Config backup automation
