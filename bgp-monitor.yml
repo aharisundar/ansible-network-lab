@@ -20,10 +20,10 @@
 
   tasks:
     - name: Check BGP peer status
-      debug:
+      ansible.builtin.debug:
         msg: "Checking {{ item.hostname }} peer {{ item.peer_ip }} AS {{ item.peer_as }}"
       loop: "{{ bgp_peers }}"
 
     - name: BGP summary
-      debug:
+      ansible.builtin.debug:
         msg: "Checked {{ bgp_peers | length }} BGP peers successfully "

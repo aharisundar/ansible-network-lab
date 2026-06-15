@@ -21,31 +21,31 @@
 
   tasks:
     - name: Show router identity
-      debug:
+      ansible.builtin.debug:
         msg: "Configuring router: {{ router_hostname }}"
 
     - name: Show WAN interface config
-      debug:
+      ansible.builtin.debug:
         msg: "WAN {{ wan_interface }} IP: {{ wan_ip }}"
 
     - name: Show LAN interface config
-      debug:
+      ansible.builtin.debug:
         msg: "LAN {{ lan_interface }} IP: {{ lan_ip }}"
 
     - name: Show BGP configuration
-      debug:
+      ansible.builtin.debug:
         msg: "BGP AS {{ bgp_as }} peering with {{ bgp_peer }} (AS {{ peer_as }}"
 
     - name: Show NTP servers
-      debug:
+      ansible.builtin.debug:
         msg: "NTP servers: {{ ntp_servers }}"
 
     - name: SHow DNS servers
-      debug:
+      ansible.builtin.debug:
         msg: "DNS servers: {{ dns_servers }}"
 
     - name: Configuration summary
-      debug:
+      ansible.builtin.debug:
         msg: >
           Router {{ router_hostname }} configured with
           WAN {{ wan_ip }}, LAN {{ lan_ip }},

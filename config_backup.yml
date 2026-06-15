@@ -48,9 +48,9 @@
       register: backup_list
 
     - name: Show backup summary
-      debug:
+      ansible.builtin.debug:
         msg: "{{ backup_list.stdout_lines }}"
 
     - name: Backup completion summary
-      debug:
+      ansible.builtin.debug:
         msg: "Backed up {{ devices | length }} devices to {{ backup_dir }}"
