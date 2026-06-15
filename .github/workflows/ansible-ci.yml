@@ -51,4 +51,4 @@ jobs:
           echo "CI Pipeline Complete!"
           echo "Playbooks validated successfully"
           echo "Engineer: Hari Sundar A"
-          echo: "Portfolio: ansible-network-lab"
+          echo "Portfolio: ansible-network-lab"
