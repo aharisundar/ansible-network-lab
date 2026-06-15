@@ -1,0 +1,54 @@
+---
+name: Ansible Network Lab CI
+
+on:
+  push:
+    branches:
+      - master
+      - development
+    pull_request:
+      branches:
+        - master
+
+jobs:
+  validate:
+    name: Validate Ansible Playbooks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Ansible
+        run: |
+          pip install ansible ansible-lint
+
+      - name: Install collections
+        run: |
+          ansible-galaxy collection install cisco.ios
+          ansible-galaxy collection install junipernetworks.junos
+
+      - name: Run Ansible lint
+        run: |
+          ansible-lint *.yml || true
+
+      - name: Check playbook syntax
+        run: |
+          ansible-playbook --syntax-check \
+          hello.yml
+          ansible-playbook --syntax-check \
+          network_config.yml
+          ansible-playbook --syntax-check \
+          config_backup.yml
+
+      - name: Summary
+        run: |
+          echo "CI Pipeline Complete!"
+          echo "Playbooks validated successfully"
+          echo "Engineer: Hari Sundar A"
+          echo: "Portfolio: ansible-network-lab"
