@@ -5,27 +5,27 @@
 
   tasks:
     - name: Update NTP config
-      debug:
+      ansible.builtin.debug:
         msg: "NTP config updated"
       changed_when: true
       notify: Restart NTP service
 
     - name: Update BGP cnofig
-      debug:
+      ansible.builtin.debug:
         msg: "BGP config updated"
       changed_when: true
       notify: Reset BGP session
 
     - name: This task has no changes
-      debug:
+      ansible.builtin.debug:
         msg: "Nothing changed here"
       changed_when: false
 
   handlers:
     - name: Restart NTP service
-      debug:
+      ansible.builtin.debug:
         msg: "HANDLER - NTP service restarted"
 
     - name: Reset BGP session
-      debug:
+      ansible.builtin.debug:
         msg: "HANDLER - BGP session reset"

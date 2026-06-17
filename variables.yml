@@ -12,14 +12,14 @@
 
   tasks:
     - name: Display engineer info
-      debug:
+      ansible.builtin.debug:
         msg: "Engineer: {{ engineer_name }} targeting {{ company }}"
 
     - name: Display device config
-      debug:
+      ansible.builtin.debug:
         msg: "Device: {{ device_type }} | NTP: {{ ntp_server }} | DNS: {{ dns_server }}"
 
     - name: Show combined message
-      debug:
+      ansible.builtin.debug:
         msg: "{{ engineer_name }} will configure {{ device_type }} at {{ company }}"
  

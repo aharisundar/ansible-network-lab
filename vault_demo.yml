@@ -7,9 +7,9 @@
 
   tasks:
     - name: Show secret variable is loaded
-      debug:
+      ansible.builtin.debug:
         msg: "Device password is loaded safely"
 
     - name: Use SNMP community
-      debug:
+      ansible.builtin.debug:
         msg: "SNMP community string is configured"

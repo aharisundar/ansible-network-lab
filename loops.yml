@@ -21,11 +21,11 @@
 
   tasks:
     - name: Vonfigure VLANs
-      debug:
+      ansible.builtin.debug:
         msg: "Creating VLAN {{ item.id }} named {{ item.name }}"
       loop: "{{ vlans }}"
 
     - name: Bring up interfaces
-      debug:
+      ansible.builtin.debug:
         msg: "Setting {{ item }} to no shutdown"
       loop: "{{ interfaces }}"

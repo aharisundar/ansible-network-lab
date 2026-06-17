@@ -4,6 +4,6 @@
   gather_facts: false
   tasks:
     - name: Hello World
-      debug:
+      ansible.builtin.debug:
         msg: "Ansible working on Termux!"
 
