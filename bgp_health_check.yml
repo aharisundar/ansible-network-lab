@@ -1,0 +1,26 @@
+---
+- name: BGP Neighbor Health Check
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    bgp_neighbors:
+      - ip: 10.10.10.1
+        state: Established
+      - ip: 10.10.10.2
+        state: Established
+      - ip: 10.10.10.3
+        state: Idle
+
+  tasks:
+
+    - name: Show BGP status
+      ansible.builtin.debug:
+        msg: "Neighbor {{ item.ip }} is {{ item.state }}"
+      loop: "{{ bgp_neighbors }}"
+
+    - name: Alert for failed neighbors
+      ansible.builtin.debug:
+        msg: "WARNING: Neighbor {{ item.ip }} is DOWN"
+      when: item.state != "Established"
+      loop: "{{ bgp_neighbors }}"

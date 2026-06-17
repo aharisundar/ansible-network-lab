@@ -1,0 +1,100 @@
+---
+- name: Generate Network Device Configs
+  hosts: localhost
+  gather_facts: false
+
+  vars:
+    devices:
+      - hostname: jarvis-rtr-blr-01
+        site: Bangalore-HQ
+        router_id: 1.1.1.1
+        ospf_process: 1
+        bgp_enabled: true
+        bgp_as: "65001"
+        snmp_community: jarvis_monitor
+        contact_email: network@jarvis.com
+        interfaces:
+          - name: GigabitEthernet0/0
+            description: WAN-TO-ISP-PRIMARY
+            ip: 203.0.113.1
+            mask: 255.255.255.252
+          - name: GigabitEthernet0/1
+            description: LAN-CORPORATE
+            ip: 10.0.1.1
+            mask: 255.255.255.0
+          - name: GigabitEthernet0/2
+            description: LAN-SERVERS
+            ip: 10.0.2.1
+            mask: 255.255.255.0
+        ospf_networks:
+          - ip: 10.0.1.0
+            wildcard: 0.0.0.255
+            area: 0
+          - ip: 10.0.2.0
+            wildcard: 0.0.0.255
+            area: 0
+        bgp_peers:
+          - ip: 203.0.113.2
+            as: "65002"
+            name: ISP-PRIMARY
+          - ip: 203.0.113.6
+            as: "65003"
+            name: ISP-SECONDARY
+        ntp_servers:
+          - 10.0.0.10
+          - 10.0.0.11
+
+      - hostname: jarvis-rtr-mum-01
+        site: Mumbai-office
+        router_id: 2.2.2.2
+        ospf_process: 1
+        bgp_enabled: false
+        bgp_as: "65001"
+        snmp_community: jarvis_monitor
+        contact_email: network@jarvis.com
+        interfaces:
+          - name: GigabitEthernet0/0
+            description: WAN-TO-HQ
+            ip: 10.1.0.1
+            mask: 255.255.255.252
+          - name: GigabitEthernet0/1
+            description: LAN-USERS
+            ip: 192.168.1.1
+            mask: 255.255.255.0
+        ospf_networks:
+          - ip: 192.168.1.0
+            wildcard: 0.0.0.255
+            area: 1
+          - ip: 10.1.0.0
+            wildcard: 0.0.0.3
+            area: 0
+        bgp_peers: []
+        ntp_servers:
+          - 10.0.0.10
+          - 10.0.0.11
+
+  tasks:
+    - name: Create output directory
+      ansible.builtin.file:
+        path: generated_configs
+        state: directory
+
+    - name: Generate config for each device
+      ansible.builtin.template:
+        src: templates/cisco_router.j2
+        dest: generated_configs/{{ item.hostname }}.cfg
+      loop: "{{ devices }}"
+
+    - name: List generated configs
+      ansible.builtin.command: ls -la ~/ansible-lab/generated_configs
+      register: config_list
+
+    - name: Show generated files
+      ansible.builtin.debug:
+        var: config_list.stdout_lines
+
+    - name: Summary
+      ansible.builtin.debug:
+        msg: >
+          Generated {{ devices | length }}
+          device configured successfully!
